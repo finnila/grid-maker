@@ -120,4 +120,52 @@ const colorAll = () => {
   });
 };
 
+// FEATURE: Clear All Cells
+// Resets all cells to white color
+const clearAll = () => {
+  const cells = tableRef.current.querySelectorAll("td");
+  cells.forEach((cell) => {
+    cell.style.backgroundColor = "white";
+  });
+};
+
+return (
+  <div className="app-container">
+    <h1>Grid Coloring App</h1>
+
+    {/* FEATURE: Action Buttons */}
+    <div className="controls">
+      <button onClick={addRow}>Add Row</button>
+      <button onClick={addColumn}>Add Column</button>
+      <button onClick={removeRow}>Remove Row</button>
+      <button onClick={removeColumn}>Remove Column</button>
+      <button onClick={colorAllUncolored}>Fill Uncolored</button>
+      <button onClick={colorAll}>Fill All</button>
+      <button onClick={clearAll}>Clear</button>
+
+      {/* FEATURE: Color Selection UI */}
+      <div className="color-selector">
+        <label htmlFor="color-select">Select Color:</label>
+        <select
+          id="color-select"
+          value={selectedColor}
+          onChange={handleColorChange}
+        >
+          <option value="#ff0000">Red</option>
+          <option value="#00ff00">Green</option>
+          <option value="#0000ff">Blue</option>
+          <option value="#ffff00">Yellow</option>
+          <option value="#ff00ff">Magenta</option>
+          <option value="#00ffff">Cyan</option>
+          <option value="#000000">Black</option>
+        </select>
+      </div>
+    </div>
+
+    {/* FEATURE: Grid Display */}
+    <div className="grid-container">
+      <table ref={tableRef} className="grid-table"></table>
+    </div>
+  </div>
+);
 export default App;
