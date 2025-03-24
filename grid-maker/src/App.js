@@ -57,4 +57,20 @@ const addRow = () => {
   setRows(rows + 1);
 };
 
+// FEATURE: Add Column
+// Adds a new column to the grid
+const addColumn = () => {
+  const table = tableRef.current;
+  if (!table) return;
+
+  const tableRows = table.getElementsByTagName("tr");
+  for (let i = 0; i < tableRows.length; i++) {
+    const cell = tableRows[i].insertCell();
+    cell.onclick = () => handleCellClick(cell);
+    cell.style.backgroundColor = "white";
+  }
+
+  setColumns(columns + 1);
+};
+
 export default App;
