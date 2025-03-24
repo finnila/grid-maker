@@ -129,6 +129,12 @@ const clearAll = () => {
   });
 };
 
+// FEATURE: Color Selection
+// Handles changing the selected color
+const handleColorChange = (e) => {
+  setSelectedColor(e.target.value);
+};
+
 return (
   <div className="app-container">
     <h1>Grid Coloring App</h1>
