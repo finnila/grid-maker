@@ -83,5 +83,21 @@ const removeRow = () => {
     setRows(rows - 1);
   }
 };
+// FEATURE: Remove Column
+// Removes the last column from the grid
+const removeColumn = () => {
+  if (columns > 1) {
+    const table = tableRef.current;
+    if (!table) return;
 
+    const tableRows = table.getElementsByTagName("tr");
+    for (let i = 0; i < tableRows.length; i++) {
+      if (tableRows[i].cells.length > 0) {
+        tableRows[i].deleteCell(columns - 1);
+      }
+    }
+
+    setColumns(columns - 1);
+  }
+};
 export default App;
