@@ -13,6 +13,23 @@ function App() {
     createGrid();
   }, []);
 
+  // Update cell click handlers when selected color changes
+  useEffect(() => {
+    const cells = tableRef.current?.querySelectorAll("td");
+    if (cells) {
+      cells.forEach((cell) => {
+        // Remove any existing click listeners to prevent duplicates
+        const newCell = cell.cloneNode(true);
+        cell.parentNode.replaceChild(newCell, cell);
+
+        // Add new click listener with current selected color
+        newCell.addEventListener("click", () => {
+          newCell.style.backgroundColor = selectedColor;
+        });
+      });
+    }
+  }, [selectedColor]);
+
   // FEATURE: Grid Creation
   // Creates the initial grid with specified rows and columns
   const createGrid = () => {
@@ -29,10 +46,17 @@ function App() {
       const row = table.insertRow();
       for (let j = 0; j < columns; j++) {
         const cell = row.insertCell();
-        cell.onclick = () => handleCellClick(cell);
         cell.style.backgroundColor = "white"; // Initial color
       }
     }
+
+    // Add click handlers after creating cells
+    const cells = table.querySelectorAll("td");
+    cells.forEach((cell) => {
+      cell.addEventListener("click", () => {
+        cell.style.backgroundColor = selectedColor;
+      });
+    });
   };
 
   // FEATURE: Color Single Cell
@@ -40,138 +64,151 @@ function App() {
   const handleCellClick = (cell) => {
     cell.style.backgroundColor = selectedColor;
   };
-}
-// FEATURE: Add Row
-// Adds a new row to the grid
-const addRow = () => {
-  const table = tableRef.current;
-  if (!table) return;
 
-  const newRow = table.insertRow();
-  for (let j = 0; j < columns; j++) {
-    const cell = newRow.insertCell();
-    cell.onclick = () => handleCellClick(cell);
-    cell.style.backgroundColor = "white";
-  }
-
-  setRows(rows + 1);
-};
-
-// FEATURE: Add Column
-// Adds a new column to the grid
-const addColumn = () => {
-  const table = tableRef.current;
-  if (!table) return;
-
-  const tableRows = table.getElementsByTagName("tr");
-  for (let i = 0; i < tableRows.length; i++) {
-    const cell = tableRows[i].insertCell();
-    cell.onclick = () => handleCellClick(cell);
-    cell.style.backgroundColor = "white";
-  }
-
-  setColumns(columns + 1);
-};
-// FEATURE: Remove Row
-// Removes the last row from the grid
-const removeRow = () => {
-  if (rows > 1) {
+  // FEATURE: Add Row
+  // Adds a new row to the grid
+  const addRow = () => {
     const table = tableRef.current;
     if (!table) return;
 
-    table.deleteRow(rows - 1);
-    setRows(rows - 1);
-  }
-};
-// FEATURE: Remove Column
-// Removes the last column from the grid
-const removeColumn = () => {
-  if (columns > 1) {
+    const newRow = table.insertRow();
+    for (let j = 0; j < columns; j++) {
+      const cell = newRow.insertCell();
+      cell.style.backgroundColor = "white";
+
+      // Add click handler with current selected color
+      cell.addEventListener("click", () => {
+        cell.style.backgroundColor = selectedColor;
+      });
+    }
+
+    setRows(rows + 1);
+  };
+
+  // FEATURE: Add Column
+  // Adds a new column to the grid
+  const addColumn = () => {
     const table = tableRef.current;
     if (!table) return;
 
     const tableRows = table.getElementsByTagName("tr");
     for (let i = 0; i < tableRows.length; i++) {
-      if (tableRows[i].cells.length > 0) {
-        tableRows[i].deleteCell(columns - 1);
+      const cell = tableRows[i].insertCell();
+      cell.style.backgroundColor = "white";
+
+      // Add click handler with current selected color
+      cell.addEventListener("click", () => {
+        cell.style.backgroundColor = selectedColor;
+      });
+    }
+
+    setColumns(columns + 1);
+  };
+
+  // FEATURE: Remove Row
+  // Removes the last row from the grid
+  const removeRow = () => {
+    if (rows > 1) {
+      const table = tableRef.current;
+      if (!table) return;
+
+      table.deleteRow(rows - 1);
+      setRows(rows - 1);
+    }
+  };
+
+  // FEATURE: Remove Column
+  // Removes the last column from the grid
+  const removeColumn = () => {
+    if (columns > 1) {
+      const table = tableRef.current;
+      if (!table) return;
+
+      const tableRows = table.getElementsByTagName("tr");
+      for (let i = 0; i < tableRows.length; i++) {
+        if (tableRows[i].cells.length > 0) {
+          tableRows[i].deleteCell(columns - 1);
+        }
       }
-    }
 
-    setColumns(columns - 1);
-  }
-};
-// FEATURE: Color All Uncolored Cells
-// Colors all cells that are currently white with the selected color
-const colorAllUncolored = () => {
-  const cells = tableRef.current.querySelectorAll("td");
-  cells.forEach((cell) => {
-    if (cell.style.backgroundColor === "white") {
+      setColumns(columns - 1);
+    }
+  };
+
+  // FEATURE: Color All Uncolored Cells
+  // Colors all cells that are currently white with the selected color
+  const colorAllUncolored = () => {
+    const cells = tableRef.current.querySelectorAll("td");
+    cells.forEach((cell) => {
+      if (cell.style.backgroundColor === "white") {
+        cell.style.backgroundColor = selectedColor;
+      }
+    });
+  };
+
+  // FEATURE: Color All Cells
+  // Colors all cells with the selected color regardless of their current color
+  const colorAll = () => {
+    const cells = tableRef.current.querySelectorAll("td");
+    cells.forEach((cell) => {
       cell.style.backgroundColor = selectedColor;
-    }
-  });
-};
+    });
+  };
 
-// FEATURE: Color All Cells
-// Colors all cells with the selected color regardless of their current color
-const colorAll = () => {
-  const cells = tableRef.current.querySelectorAll("td");
-  cells.forEach((cell) => {
-    cell.style.backgroundColor = selectedColor;
-  });
-};
+  // FEATURE: Clear All Cells
+  // Resets all cells to white color
+  const clearAll = () => {
+    const cells = tableRef.current.querySelectorAll("td");
+    cells.forEach((cell) => {
+      cell.style.backgroundColor = "white";
+    });
+  };
 
-// FEATURE: Clear All Cells
-// Resets all cells to white color
-const clearAll = () => {
-  const cells = tableRef.current.querySelectorAll("td");
-  cells.forEach((cell) => {
-    cell.style.backgroundColor = "white";
-  });
-};
+  // FEATURE: Color Selection
+  // Handles changing the selected color
+  const handleColorChange = (e) => {
+    setSelectedColor(e.target.value);
+  };
 
-// FEATURE: Color Selection
-// Handles changing the selected color
-const handleColorChange = (e) => {
-  setSelectedColor(e.target.value);
-};
+  return (
+    <div className="app-container">
+      <h1>Grid Coloring App</h1>
 
-return (
-  <div className="app-container">
-    <h1>Grid Coloring App</h1>
+      {/* FEATURE: Action Buttons */}
+      <div className="controls">
+        <button onClick={addRow}>Add Row</button>
+        <button onClick={addColumn}>Add Column</button>
+        <button onClick={removeRow}>Remove Row</button>
+        <button onClick={removeColumn}>Remove Column</button>
+        <button onClick={colorAllUncolored}>Fill Uncolored</button>
+        <button onClick={colorAll}>Fill All</button>
+        <button onClick={clearAll}>Clear</button>
 
-    {/* FEATURE: Action Buttons */}
-    <div className="controls">
-      <button onClick={addRow}>Add Row</button>
-      <button onClick={addColumn}>Add Column</button>
-      <button onClick={removeRow}>Remove Row</button>
-      <button onClick={removeColumn}>Remove Column</button>
-      <button onClick={colorAllUncolored}>Fill Uncolored</button>
-      <button onClick={colorAll}>Fill All</button>
-      <button onClick={clearAll}>Clear</button>
+        {/* FEATURE: Color Selection UI */}
+        <div className="color-selector">
+          <label htmlFor="color-select">Select Color:</label>
+          <select
+            id="color-select"
+            value={selectedColor}
+            onChange={handleColorChange}
+          >
+            <option value="#ff0000">Red</option>
+            <option value="#00ff00">Green</option>
+            <option value="#0000ff">Blue</option>
+            <option value="#ffff00">Yellow</option>
+            <option value="#ff00ff">Magenta</option>
+            <option value="#00ffff">Cyan</option>
+            <option value="#000000">Black</option>
+          </select>
+        </div>
+      </div>
 
-      {/* FEATURE: Color Selection UI */}
-      <div className="color-selector">
-        <label htmlFor="color-select">Select Color:</label>
-        <select
-          id="color-select"
-          value={selectedColor}
-          onChange={handleColorChange}
-        >
-          <option value="#ff0000">Red</option>
-          <option value="#00ff00">Green</option>
-          <option value="#0000ff">Blue</option>
-          <option value="#ffff00">Yellow</option>
-          <option value="#ff00ff">Magenta</option>
-          <option value="#00ffff">Cyan</option>
-          <option value="#000000">Black</option>
-        </select>
+      {/* FEATURE: Grid Display */}
+      <div className="grid-container">
+        <table ref={tableRef} className="grid-table"></table>
       </div>
     </div>
+  );
+}
 
-    {/* FEATURE: Grid Display */}
-    <div className="grid-container">
-      <table ref={tableRef} className="grid-table"></table>
-    </div>
-  </div>
-);
 export default App;
