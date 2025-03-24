@@ -72,5 +72,16 @@ const addColumn = () => {
 
   setColumns(columns + 1);
 };
+// FEATURE: Remove Row
+// Removes the last row from the grid
+const removeRow = () => {
+  if (rows > 1) {
+    const table = tableRef.current;
+    if (!table) return;
+
+    table.deleteRow(rows - 1);
+    setRows(rows - 1);
+  }
+};
 
 export default App;
