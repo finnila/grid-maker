@@ -100,4 +100,14 @@ const removeColumn = () => {
     setColumns(columns - 1);
   }
 };
+// FEATURE: Color All Uncolored Cells
+// Colors all cells that are currently white with the selected color
+const colorAllUncolored = () => {
+  const cells = tableRef.current.querySelectorAll("td");
+  cells.forEach((cell) => {
+    if (cell.style.backgroundColor === "white") {
+      cell.style.backgroundColor = selectedColor;
+    }
+  });
+};
 export default App;
