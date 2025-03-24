@@ -110,4 +110,14 @@ const colorAllUncolored = () => {
     }
   });
 };
+
+// FEATURE: Color All Cells
+// Colors all cells with the selected color regardless of their current color
+const colorAll = () => {
+  const cells = tableRef.current.querySelectorAll("td");
+  cells.forEach((cell) => {
+    cell.style.backgroundColor = selectedColor;
+  });
+};
+
 export default App;
