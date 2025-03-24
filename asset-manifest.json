@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/grid-maker/static/css/main.ae3313fb.css",
+    "main.js": "/grid-maker/static/js/main.a335c75e.js",
+    "static/js/453.a5692255.chunk.js": "/grid-maker/static/js/453.a5692255.chunk.js",
+    "index.html": "/grid-maker/index.html",
+    "main.ae3313fb.css.map": "/grid-maker/static/css/main.ae3313fb.css.map",
+    "main.a335c75e.js.map": "/grid-maker/static/js/main.a335c75e.js.map",
+    "453.a5692255.chunk.js.map": "/grid-maker/static/js/453.a5692255.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ae3313fb.css",
+    "static/js/main.a335c75e.js"
+  ]
+}
