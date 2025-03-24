@@ -41,5 +41,20 @@ function App() {
     cell.style.backgroundColor = selectedColor;
   };
 }
+// FEATURE: Add Row
+// Adds a new row to the grid
+const addRow = () => {
+  const table = tableRef.current;
+  if (!table) return;
+
+  const newRow = table.insertRow();
+  for (let j = 0; j < columns; j++) {
+    const cell = newRow.insertCell();
+    cell.onclick = () => handleCellClick(cell);
+    cell.style.backgroundColor = "white";
+  }
+
+  setRows(rows + 1);
+};
 
 export default App;
